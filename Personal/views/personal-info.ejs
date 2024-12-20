@@ -1,0 +1,46 @@
+
+<body>
+
+        <%- include('partials/navbar') %>
+        
+    <div class="personal">
+        
+        <h1>Submitted Personal Information</h1>
+        
+        <% if (personalInfos && personalInfos.length > 0) { %>
+            <% personalInfos.forEach((personalInfo) => { %>
+                <div>
+                    <p>Name: <%= personalInfo.name %></p>
+                <p>Phone: <%= personalInfo.phone %></p>
+                <p>Nationality: <%= personalInfo.nationality %></p>
+                <p>Address: <%= personalInfo.address %></p>
+                <p>Age: <%= personalInfo.age %></p>
+                <p>Gender: <%= personalInfo.gender %></p>
+                <p>Father's Name: <%= personalInfo.fatherName %></p>
+                <p>Mother's Name: <%= personalInfo.motherName %></p>
+                <a class="delete" data-doc="<%= personalInfo._id %>" >
+                    <img src="/delete.svg" />
+                </a>   
+            </div>
+            <hr>
+            <% }) %>
+            <% } else { %> 
+                <p>No personal information submitted yet.</p>
+    <% } %>
+    </div>
+    
+    <script>
+        const trashcan = document.querySelector('a.delete');
+    
+        trashcan.addEventListener('click', (e) => {
+          const endpoint = `/data/${trashcan.dataset.doc}`;
+    
+          fetch(endpoint, {method: 'DELETE',})
+            .then(response => response.json())
+            .then(data => window.location.href = data.redirect)
+            .catch(err => console.log(err));
+        });
+        
+      </script>
+</body>
+</html>
